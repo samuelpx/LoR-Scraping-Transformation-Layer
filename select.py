@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
-
 import duckdb
-import pandas as pd 
 
 con = duckdb.connect("database.db")
 
