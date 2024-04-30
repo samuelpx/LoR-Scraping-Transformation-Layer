@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import duckdb
 
 #Initiate the db if it does not exist, create a cursor otherwise.
