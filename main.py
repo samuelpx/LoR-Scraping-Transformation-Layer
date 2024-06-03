@@ -18,9 +18,11 @@ try:
 except duckdb.duckdb.CatalogException:
     print("Table did not exist, initializing table")
 
+#FINAL WITH DATE
 #Creating our table, setting data-types 
 #adding the auto-incrementable primary key
-con.sql("CREATE TABLE lor_scraping_t (id INT DEFAULT nextval('id_sequence') PRIMARY KEY, name VARCHAR, rank INT64, lp DOUBLE, date VARCHAR)")
+con.sql("CREATE TABLE lor_scraping_t (id INT DEFAULT nextval('id_sequence') PRIMARY KEY, name VARCHAR, rank INT64, lp INT16, date DATETIME)")
 
 #Inserting data from a direct query to the parquet file
-con.sql("INSERT INTO lor_scraping_t (name, rank, lp, date) select name, rank, lp, date FROM read_parquet('/home/samuelpx/Documents/Projects/python/LoR-Scraping/transformed_data.parquet')")
+con.sql("INSERT INTO lor_scraping_t (name, rank, lp, date) select name, rank, lp, CAST(Concat(SUBSTRING(date,7,4),SUBSTRING(date,3,1), SUBSTRING(date,4,2),SUBSTRING(date,3,1), SUBSTRING(date,1,2), ' ', SUBSTRING(date,13,2), ':00:00') as DATETIME) as date FROM read_parquet('/home/samuelpx/Documents/Projects/python/LoR-Scraping/transformed_data.parquet')")
+
